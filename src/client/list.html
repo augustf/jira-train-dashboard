@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="jtb" ng-strict-di>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title data-ng-bind="title"></title>
+
+    <!-- inject-vendor:css -->
+    <link href="/app/content/vendor.min.css" rel="stylesheet">
+    <!-- endinject -->
+
+    <!-- inject:css -->
+    <link href="/app/content/app.min.css" rel="stylesheet" />
+    <!-- endinject -->
+</head>
+<body ng-controller="MainController as main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+            <form ng-submit="main.reloadBoard()">
+            <div class="input-group">
+                <span class="input-group-addon">Board Id</span>
+                <input type="text" class="form-control" placeholder="Board Id" ng-model="main.boardId"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="main.reloadBoard()">Go!</button>
+                </span>
+            </div>
+            </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title"> In Progress</h2>
+            </div>
+            <div class="panel-body">
+              <div class="panel">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Backlog</h2>
+            </div>
+            <div class="panel-body">
+              <div ng-repeat="epic in main.boardStats.epics" class="panel panel-info epic-card">
+                <div class="panel-heading">
+                    <div uib-dropdown on-toggle="toggled(open)" class="pull-right">
+                        <div uib-dropdown-toggle>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="uib-dropdown-menu">
+                            <li>Placeholder 1</li>
+                            <li>Placeholder 2</li>
+                        </ul>
+                    </div>
+                    <h3 class="panel-title">
+                        {{ $index + 1 }}.
+                        <a href="https://jira.dealertrack.com/browse/{{epic.key}}" target="_blank">{{ epic.key }}</a>
+                    </h3>
+                    <p>{{ epic.epicLabel }}</p>
+                </div>
+                <div class="panel-body container">
+                    <div class="row">
+                      <div class="col-md-1">Groomed</div>
+                      <div class="col-md-2">
+                        <uib-progressbar type="success" value="epic.epicStats.estimated" max="epic.epicStats.totalIssueCount"> {{ epic.epicStats.estimated }} / {{ epic.epicStats.totalIssueCount }} </uib-progressbar>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-1">Points</div>
+                      <div class="col-md-2">
+                        <uib-progressbar type="success" value="epic.epicStats.doneEstimate" max="epic.epicStats.totalEstimate">
+                            {{ epic.epicStats.doneEstimate }} / {{ epic.epicStats.totalEstimate }}
+                        </uib-progressbar>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-1">Stories</div>
+                      <div class="col-md-2">
+                        <uib-progressbar type="success" value="epic.epicStats.done" max="epic.epicStats.totalIssueCount">  {{ epic.epicStats.done }} / {{ epic.epicStats.totalIssueCount }} </uib-progressbar>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+        <!-- <div data-ng-include="'app/shell.html'"></div>
+        <div id="splash-page" data-ng-show="false">
+            <div class="page-splash">
+                <div class="page-splash-message">
+                    Template
+                </div>
+                <div class="progress progress-striped active page-progress-bar">
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- inject-vendor:js -->
+    <script src="/app/vendor.min.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <script src="/app/all.min.js"></script>
+    <!-- endinject -->
+</body>
+</html>

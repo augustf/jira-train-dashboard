@@ -1,0 +1,35 @@
+{
+  "client": "./src/client/",
+  "server": "./src/server/",
+  "test": "./src/client/test/",
+  "html": "./src/client/**/*.html",
+  "htmltemplates": "./src/client/app/**/*.html",
+  "vendorjs": [
+    "./bower_components/angular/angular.js",
+    "./bower_components/angular-animate/angular-animate.js",
+    "./bower_components/angular-bootstrap/ui-bootstrap.js",
+    "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"
+  ],
+  "vendorcss": [
+    "./bower_components/bootstrap-css-only/css/bootstrap-theme.min.css",
+    "./bower_components/bootstrap-css-only/css/bootstrap.min.css",
+    "./bower_components/angular/angular-csp.css",
+    "./bower_components/angular-bootstrap/ui-bootstrap-csp.css"
+  ],
+  "css": [
+    "./src/client/content/**/*.css"
+  ],
+  "js": [
+    "./src/client/app/**/*.js"
+  ],
+  "specs": [
+    "./src/client/test/specs/*.spec.js"
+  ],
+  "fonts": [
+  ],
+  "images": [
+    "./src/client/content/images/**/*"
+  ],
+  "build": "./client-dist",
+  "buildprefix": "/app"
+}

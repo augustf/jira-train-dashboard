@@ -1,0 +1,14 @@
+
+tr.epic > td.epic-label {
+    max-width: 400px;
+}
+
+tr.epic > td.epic-groomed-stats, 
+tr.epic > td.epic-points-stats, 
+tr.epic > td.epic-stories-stats {
+    width: 120px;
+}
+
+.jtb-change-rank-input {
+    width: 200px;
+}

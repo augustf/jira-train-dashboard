@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="jtb" ng-strict-di>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title data-ng-bind="title"></title>
+
+    <!-- inject-vendor:css -->
+    <link href="/app/content/vendor.min.css" rel="stylesheet">
+    <!-- endinject -->
+
+    <!-- inject:css -->
+    <link href="/app/content/all.min.css" rel="stylesheet" />
+    <!-- endinject -->
+</head>
+<body ng-controller="MainController as main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+            <form ng-submit="main.reloadBoard()">
+            <div class="input-group">
+                <span class="input-group-addon">Board Id</span>
+                <input type="text" class="form-control" placeholder="Board Id" ng-model="main.boardId"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="main.reloadBoard()">Go!</button>
+                </span>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <p>{{ main.epics.length }} epics</p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <div class="row">
+        <table class="table table-condensed">
+            <tr class="epic">
+                <td class-"epic-rank">#</td>
+                <td class="epic-key">Key</td>
+                <td class="epic-label">Label</td>
+                <td class="epic-groomed-stats">Groomed</td>
+                <td class="epic-points-stats">Points</td>
+                <td class="epic-stories-stats">Stories</td>
+            </tr>
+            <tr class="epic {{ epic.epicLabel.match('aterline') ? 'danger' : '' }}" ng-repeat="epic in main.epics">
+                <td class="epic-rank">
+                    <div uib-dropdown on-toggle="toggled(open)" class="">
+                        <div uib-dropdown-toggle class="btn btn-default btn-sm">
+                            {{ $index }}
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="uib-dropdown-menu">
+                            <li><a href="#" ng-click="main.openChangeRankModal($index)">Change Rank</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="https://jira.dealertrack.com/secure/RapidBoard.jspa?rapidView={{ main.boardId }}&view=reporting&chart=epicBurndown&epic={{ epic.key }}" target="_blank">Epic Burndown</a></li>
+                            <li><a href="https://jira.dealertrack.com/secure/RapidBoard.jspa?rapidView={{ main.boardId }}&view=reporting&chart=epicReport&epic={{ epic.key }}" target="_blank">Epic Report</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="epic-key">
+                    <a class="{{ epic.hidden ? 'text-muted' : ''}}" href="https://jira.dealertrack.com/browse/{{epic.key}}" target="_blank">{{ epic.key }}</a>
+                </td>
+                <td class="epic-label">
+                    <a class="{{ epic.hidden ? 'text-muted' : ''}}" href="https://jira.dealertrack.com/browse/{{epic.key}}" target="_blank">{{ epic.epicLabel }}</a>
+                </td>
+                <td class="epic-groomed-stats">
+                    <uib-progressbar type="{{ epic.hidden ? 'info' : 'success'}}" value="epic.epicStats.estimated" max="epic.epicStats.totalIssueCount"> {{ epic.epicStats.estimated }} / {{ epic.epicStats.totalIssueCount }} </uib-progressbar>
+                </td>
+                <td class="epic-points-stats">
+                    <uib-progressbar type="{{ epic.hidden ? 'info' : 'success'}}" value="epic.epicStats.doneEstimate" max="epic.epicStats.totalEstimate">
+                            {{ epic.epicStats.doneEstimate }} / {{ epic.epicStats.totalEstimate }}
+                    </uib-progressbar>
+                </td>
+                <td class="epic-stories-stats">
+                    <uib-progressbar type="{{ epic.hidden ? 'info' : 'success'}}" value="epic.epicStats.done" max="epic.epicStats.totalIssueCount">  {{ epic.epicStats.done }} / {{ epic.epicStats.totalIssueCount }} </uib-progressbar>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </div>
+        <script type="text/ng-template" id="changeRankModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Rank of {{ modal.epics[modal.currentRank].key }}</h3>
+            </div>
+            <div class="modal-body">
+                  <table class="table table-condensed">
+                    <tr ng-show="(modal.getAfterRank() < 0 )">
+                        <td> </td>
+                        <td>
+                        </td>
+                        <td>
+                            Top of Backlog
+                        </td>
+                   </tr>
+                   <tr ng-show="modal.getAfterRank() >= 0">
+                        <td ng-bind="modal.getAfterRank()"></td>
+                        <td ng-bind="modal.epics[modal.getAfterRank()].key"></td>
+                        <td ng-bind="modal.epics[modal.getAfterRank()].epicLabel"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ modal.currentRank }}
+                            <div class="input-group input-group-sm pull-right jtb-change-rank-input">
+                                <span class="input-group-addon">Change by</span>
+                                <input type="number" class="form-control" name="rank" placeholder="+/- #" ng-model="modal.moveRank"/>
+                            </div>
+                         </td>
+                         </td>
+                        <td ng-bind="modal.epics[modal.currentRank].key"></td>
+                        <td ng-bind="modal.epics[modal.currentRank].epicLabel"></td>
+                    </tr>
+                    <tr ng-show="modal.getBeforeRank() < modal.epics.length">
+                        <td ng-bind="modal.getBeforeRank()"></td>
+                        <td ng-bind="modal.epics[modal.getBeforeRank()].key"></td>
+                        <td ng-bind="modal.epics[modal.getBeforeRank()].epicLabel"></td>
+                    </tr>
+                    <tr ng-show="modal.getBeforeRank() >= modal.epics.length">
+                        <td> </td>
+                        <td>
+                            Bottom of Backlog
+                        </td>
+                        <td> </td>
+                    </tr>
+                  
+                  </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="modal.update()">Update</button>
+                <button class="btn btn-warning" type="button" ng-click="modal.close()">Cancel</button>
+            </div>
+
+        </script>
+
+    <!-- inject-vendor:js -->
+    <script src="/app/vendor.min.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <script src="/app/all.min.js"></script>
+    <!-- endinject -->
+</body>
+</html>

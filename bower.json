@@ -1,0 +1,17 @@
+{
+  "name": "simple-gulp-bower-template",
+  "version": "0.0.0",
+  "description": "Simple Template for Apps utilizing Gulp & Bower",
+  "authors": [
+    "Thomas Kahnoski"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "angular": "~1.4.7",
+    "bootstrap-css-only": "~3.3.5",
+    "angular-bootstrap": "~0.14.2",
+    "angular-animate": "~1.4.7"
+  }
+}

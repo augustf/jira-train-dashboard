@@ -20,6 +20,8 @@
   "dependencies": {
     "good": "^6.4.0",
     "good-console": "^5.1.0",
+    "connect": "^3.5.0",
+    "serve-static": "^1.10.2",  
     "hapi": "^11.0.2",
     "inert": "^3.1.0",
     "jira-connector": "^1.7.0",

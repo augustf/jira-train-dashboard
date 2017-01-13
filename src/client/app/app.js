@@ -95,7 +95,7 @@
                 return {
                     afterRank: afterRank,
                     beforeRank: beforeRank
-                }
+                };
             },
             subscribe: function(scope, callback) {
                 var handler = $rootScope.$on('jtb.epic-list', callback);
@@ -163,7 +163,7 @@
             return ranks.beforeRank;
         };
         this.update = function () {
-            $uibModalInstance.close(this.moveRank)
+            $uibModalInstance.close(this.moveRank);
         };
         this.close = function () {
             $uibModalInstance.dismiss('cancel');

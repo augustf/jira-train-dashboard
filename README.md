@@ -31,4 +31,5 @@ Also an excuse to learn angular, gulp, bower, bootstrap.
 ##Useful commands
 * `gulp build` *builds and minifiy the assests*
 * `node src/server/app.js`
+*  http://localhost:3000/app/index.html
 

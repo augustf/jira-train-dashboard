@@ -1,0 +1,8 @@
+{
+    "host": "jira.YOUR_SERVER.com",
+    "basic_auth": {
+        "username": "YOUR_USERNAME",
+        "password": "YOUR_PASSWORD"
+    }
+}
+
